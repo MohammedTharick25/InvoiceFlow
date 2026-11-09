@@ -9,7 +9,7 @@ services:
     healthCheckPath: /health
     envVars:
       - key: FRONTEND_ORIGIN
-        value: https://invoiceflow-frontend-2b0s.onrender.com
+        value: https://invoiceflow-frontend-2b0s-5149.onrender.com
 
   - type: web
     name: invoiceflow-frontend-2b0s
@@ -19,7 +19,7 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
-        value: https://invoiceflow-4rtb.onrender.com/api
+        value: https://invoiceflow-4rtb-x5so.onrender.com/api
     routes:
       - type: rewrite
         source: /*
@@ -27,7 +27,7 @@ services:
     headers:
       - path: /*
         name: Content-Security-Policy
-        value: "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://invoiceflow-4rtb.onrender.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+        value: "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://invoiceflow-4rtb-x5so.onrender.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
       - path: /*
         name: Strict-Transport-Security
         value: max-age=31536000
@@ -53,7 +53,7 @@ services:
       - key: VITE_MARKETING_URL
         value: https://invoiceflow-marketing.onrender.com
       - key: VITE_APP_URL
-        value: https://invoiceflow-frontend-2b0s.onrender.com
+        value: https://invoiceflow-frontend-2b0s-5149.onrender.com
     headers:
       - path: /*
         name: Content-Security-Policy

@@ -6,8 +6,8 @@ This file records local Phase 12 preparation. No hosting account, domain, databa
 
 The owner supplied these staging origins:
 
-- API: `https://invoiceflow-4rtb.onrender.com`
-- App: `https://invoiceflow-frontend-2b0s.onrender.com`
+- API: `https://invoiceflow-4rtb-x5so.onrender.com`
+- App: `https://invoiceflow-frontend-2b0s-5149.onrender.com`
 - Marketing: `https://invoiceflow-marketing.onrender.com`
 
 The root [`render.yaml`](../../render.yaml) records the associated API CORS origin, frontend API base URL, marketing canonical/app URLs, React Router fallback, and static-site security headers. Review Render's Blueprint changes before applying them. Confirm the three existing services are updated rather than duplicated. The Blueprint does not contain database, Resend, JWT, or Cloudinary secrets.
