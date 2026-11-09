@@ -8,6 +8,12 @@ The owner has requested free and open-source options. The specification permits 
 
 Staging may be configured after the owner selects providers and supplies the URLs and credentials. Use separate staging database, storage folder, billing mode, and secrets. Do not commit credentials or actual `.env` files.
 
+## Transactional email with Resend
+
+The backend supports `EMAIL_PROVIDER=resend` and sends account verification and password-reset mail through Resend's HTTPS Email API. Set `RESEND_API_KEY` and `DEFAULT_FROM_EMAIL` in the deployment environment; leave `EMAIL_URL` blank. The API key is a secret and must never be included in the frontend build or source control. The implementation uses Node's built-in `fetch`, so it does not add an npm dependency.
+
+Before sending to real users, create a Resend account, add a domain you own, publish the exact DNS records shown in its dashboard, wait for verification, then create a sending-only API key scoped to that domain. Set `DEFAULT_FROM_EMAIL` to an address at that verified domain. Do not invent DNS record names or values; they are account- and domain-specific. For local development with no key, keep `EMAIL_PROVIDER=smtp` and `EMAIL_URL` blank to retain the local-only development-token flow. Resend's free-plan limits can change; check its current pricing before enabling a production sender.
+
 ## Staging smoke check
 
 Once staging is configured, from `backend/` set these process variables to the public HTTPS endpoints:

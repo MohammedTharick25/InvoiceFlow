@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import nodemailer from "nodemailer";
+import { createResendMailer } from "./resend-mailer.js";
 import { createHmac, createHash, randomBytes, randomUUID } from "node:crypto";
 import { ApiError } from "../../utils/ApiError.js";
 import { AuthToken } from "./auth-token.model.js";
@@ -69,7 +70,7 @@ async function createAuthToken({ user, type, env, now, mailer, targetEmail }) {
     { $set: { usedAt: now } },
   );
   const raw = randomBytes(32).toString("base64url");
-  await AuthToken.create({
+  const authToken = await AuthToken.create({
     userId: user._id,
     type,
     targetEmail: targetEmail ?? user.email,
@@ -78,10 +79,18 @@ async function createAuthToken({ user, type, env, now, mailer, targetEmail }) {
   });
   const path = type === "verify_email" ? "verify-email" : "reset-password";
   const link = `${env.FRONTEND_ORIGIN.split(",")[0]}/auth/${path}#token=${encodeURIComponent(raw)}`;
-  if (env.EMAIL_URL) {
-    const transport = mailer ?? nodemailer.createTransport(env.EMAIL_URL);
+  const emailConfigured =
+    env.EMAIL_PROVIDER === "resend"
+      ? Boolean(env.RESEND_API_KEY)
+      : Boolean(env.EMAIL_URL);
+  if (emailConfigured) {
+    const transport =
+      mailer ??
+      (env.EMAIL_PROVIDER === "resend"
+        ? createResendMailer({ apiKey: env.RESEND_API_KEY })
+        : nodemailer.createTransport(env.EMAIL_URL));
     try {
-      await transport.sendMail({
+      const message = {
         from: env.DEFAULT_FROM_EMAIL,
         to: targetEmail ?? user.email,
         subject:
@@ -89,7 +98,15 @@ async function createAuthToken({ user, type, env, now, mailer, targetEmail }) {
             ? "Verify your InvoiceFlow email"
             : "Reset your InvoiceFlow password",
         text: `Use this one-time link within one hour: ${link}`,
-      });
+      };
+      if (env.EMAIL_PROVIDER === "resend") {
+        await transport.sendMail({
+          ...message,
+          idempotencyKey: `${type}/${authToken._id}`,
+        });
+      } else {
+        await transport.sendMail(message);
+      }
     } catch {
       throw new ApiError(
         503,

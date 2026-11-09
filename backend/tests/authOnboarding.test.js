@@ -1,5 +1,13 @@
 import mongoose from "mongoose";
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
+import {
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from "vitest";
 import request from "supertest";
 import { MongoMemoryReplSet } from "mongodb-memory-server";
 import { createApp } from "../src/app.js";
@@ -146,6 +154,24 @@ describe("Phase 2 auth and onboarding", () => {
       DEFAULT_FROM_EMAIL: "invoices@example.test",
     });
     expect(configured.success).toBe(true);
+
+    const resendWithoutKey = safeParseEnv({
+      ...productionEnv,
+      EMAIL_PROVIDER: "resend",
+      DEFAULT_FROM_EMAIL: "invoices@example.test",
+    });
+    expect(resendWithoutKey.success).toBe(false);
+    expect(
+      resendWithoutKey.error.issues.map((issue) => issue.path[0]),
+    ).toContain("RESEND_API_KEY");
+
+    const resendConfigured = safeParseEnv({
+      ...productionEnv,
+      EMAIL_PROVIDER: "resend",
+      RESEND_API_KEY: "re_test_key",
+      DEFAULT_FROM_EMAIL: "invoices@example.test",
+    });
+    expect(resendConfigured.success).toBe(true);
   });
 
   it("registers with a hashed one-time token and verifies exactly once", async () => {
@@ -177,6 +203,45 @@ describe("Phase 2 auth and onboarding", () => {
           .send({ token: response.body.developmentToken })
       ).status,
     ).toBe(400);
+  });
+
+  it("sends account verification through Resend without returning the token", async () => {
+    const priorProvider = env.EMAIL_PROVIDER;
+    const priorApiKey = env.RESEND_API_KEY;
+    env.EMAIL_PROVIDER = "resend";
+    env.RESEND_API_KEY = "re_test_key";
+    const fetchMock = vi.fn(
+      async () =>
+        new Response('{"id":"resend-email-id"}', {
+          status: 200,
+          headers: { "content-type": "application/json" },
+        }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    try {
+      const response = await request(app).post("/api/auth/register").send({
+        email: "resend-owner@example.test",
+        name: "Resend Owner",
+        password: "Unbreached long password 45!",
+      });
+      expect(response.status).toBe(202);
+      expect(response.body.developmentToken).toBeUndefined();
+      expect(fetchMock).toHaveBeenCalledOnce();
+      const [url, options] = fetchMock.mock.calls[0];
+      expect(url).toBe("https://api.resend.com/emails");
+      expect(options.headers.Authorization).toBe("Bearer re_test_key");
+      const message = JSON.parse(options.body);
+      expect(message.to).toEqual(["resend-owner@example.test"]);
+      expect(message.from).toBe("auth@example.test");
+      expect(message.text).toContain("/auth/verify-email#token=");
+      expect(options.headers["Idempotency-Key"]).toMatch(/^verify_email\//);
+    } finally {
+      vi.unstubAllGlobals();
+      if (priorProvider === undefined) delete env.EMAIL_PROVIDER;
+      else env.EMAIL_PROVIDER = priorProvider;
+      if (priorApiKey === undefined) delete env.RESEND_API_KEY;
+      else env.RESEND_API_KEY = priorApiKey;
+    }
   });
 
   it("rejects unknown, unverified, incorrect, and locked accounts with the same credential error", async () => {

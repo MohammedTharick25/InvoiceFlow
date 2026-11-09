@@ -18,6 +18,8 @@ export function createLogger(options = {}) {
           "refreshToken",
           "SMTP_PASSWORD",
           "EMAIL_URL",
+          "RESEND_API_KEY",
+          "apiKey",
           "RAZORPAY_KEY_SECRET",
           "RAZORPAY_WEBHOOK_SECRET",
           "CLOUDINARY_API_SECRET",

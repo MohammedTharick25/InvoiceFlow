@@ -14,6 +14,8 @@ const schema = z
       .enum(["fatal", "error", "warn", "info", "debug", "trace", "silent"])
       .default("info"),
     EMAIL_URL: z.string().default(""),
+    EMAIL_PROVIDER: z.enum(["smtp", "resend"]).default("smtp"),
+    RESEND_API_KEY: z.string().default(""),
     DEFAULT_FROM_EMAIL: z.string().email().default("auth@invoiceflow.local"),
     MAX_BUSINESSES_PER_USER: z.coerce.number().int().min(1).max(10).default(1),
     CLOUDINARY_CLOUD_NAME: z.string().default(""),
@@ -73,11 +75,21 @@ function assertProductionConfiguration(env) {
     }
   }
   if (!env.EMAIL_URL) {
+    if (env.EMAIL_PROVIDER === "smtp") {
+      issues.push({
+        code: "custom",
+        path: ["EMAIL_URL"],
+        message:
+          "EMAIL_URL is required when EMAIL_PROVIDER is smtp in production.",
+      });
+    }
+  }
+  if (env.EMAIL_PROVIDER === "resend" && !env.RESEND_API_KEY) {
     issues.push({
       code: "custom",
-      path: ["EMAIL_URL"],
+      path: ["RESEND_API_KEY"],
       message:
-        "EMAIL_URL is required for production account verification and password recovery.",
+        "RESEND_API_KEY is required when EMAIL_PROVIDER is resend in production.",
     });
   }
   if (env.DEFAULT_FROM_EMAIL.endsWith(".local")) {
