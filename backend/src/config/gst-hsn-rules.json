@@ -1,0 +1,23 @@
+{
+  "version": "2026-11-05",
+  "authority": "non-authoritative; confirm with your accountant",
+  "default": { "requirement": "recommended", "minDigits": 4 },
+  "turnoverBands": {
+    "unspecified": {
+      "b2b": { "requirement": "recommended", "minDigits": 4 },
+      "b2c": { "requirement": "recommended", "minDigits": 4 }
+    },
+    "declared_band_1": {
+      "b2b": { "requirement": "recommended", "minDigits": 4 },
+      "b2c": { "requirement": "recommended", "minDigits": 4 }
+    },
+    "declared_band_2": {
+      "b2b": { "requirement": "recommended", "minDigits": 4 },
+      "b2c": { "requirement": "recommended", "minDigits": 4 }
+    },
+    "declared_band_3": {
+      "b2b": { "requirement": "recommended", "minDigits": 4 },
+      "b2c": { "requirement": "recommended", "minDigits": 4 }
+    }
+  }
+}

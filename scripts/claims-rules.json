@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "patterns": [
+    {
+      "id": "gst-compliant",
+      "pattern": "\\bGST[\\s-]+compliant\\b",
+      "flags": "gi"
+    },
+    {
+      "id": "fully-compliant",
+      "pattern": "\\bfully\\s+compliant\\b",
+      "flags": "gi"
+    },
+    {
+      "id": "guarantees-compliance",
+      "pattern": "\\bguarantee(?:s|d)?\\s+compliance\\b",
+      "flags": "gi"
+    },
+    {
+      "id": "ensures-compliance",
+      "pattern": "\\bensure(?:s|d)?\\s+compliance\\b",
+      "flags": "gi"
+    },
+    { "id": "certified", "pattern": "\\bcertified\\b", "flags": "gi" },
+    {
+      "id": "gst-authority-approval",
+      "pattern": "\\bapproved\\s+by\\s+(?:the\\s+)?GST\\s+authorities\\b",
+      "flags": "gi"
+    },
+    {
+      "id": "accountant-approved",
+      "pattern": "\\baccountant[- ]approved\\b",
+      "flags": "gi"
+    },
+    {
+      "id": "legally-valid",
+      "pattern": "\\blegally\\s+valid\\b",
+      "flags": "gi"
+    },
+    { "id": "audit-proof", "pattern": "\\baudit[- ]proof\\b", "flags": "gi" }
+  ],
+  "negationCues": [
+    "not",
+    "no",
+    "never",
+    "cannot",
+    "does not",
+    "without",
+    "n't"
+  ],
+  "contrastCues": ["but", "however"]
+}

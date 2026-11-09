@@ -1,0 +1,62 @@
+[
+  {
+    "name": "half-up integer edge",
+    "kind": "round",
+    "numerator": "1",
+    "denominator": "2",
+    "expected": "1"
+  },
+  {
+    "name": "large bigint product",
+    "kind": "round",
+    "numerator": "10000000000000000000",
+    "denominator": "1000",
+    "expected": "10000000000000000"
+  },
+  {
+    "name": "valid INR parse",
+    "kind": "money",
+    "value": "1234.56",
+    "currency": "INR",
+    "expected": 123456
+  },
+  {
+    "name": "zero-decimal parse",
+    "kind": "money",
+    "value": "1234",
+    "currency": "JPY",
+    "expected": 1234
+  },
+  {
+    "name": "quantity parse",
+    "kind": "quantity",
+    "value": "1.125",
+    "expected": 1125
+  },
+  {
+    "name": "intra-state rounding parity",
+    "kind": "calculation",
+    "input": {
+      "items": [
+        {
+          "description": "Rounding edge",
+          "quantityMilli": 1000,
+          "unitPriceMinor": 10010,
+          "taxability": "taxable",
+          "taxCode": "GST5"
+        }
+      ],
+      "supplyType": "intra",
+      "rates": { "GST5": { "rateBp": 500 } }
+    },
+    "expected": [
+      {
+        "taxableMinor": 10010,
+        "cgstMinor": 250,
+        "sgstMinor": 250,
+        "igstMinor": 0,
+        "lineTotalMinor": 10510
+      }
+    ]
+  }
+]

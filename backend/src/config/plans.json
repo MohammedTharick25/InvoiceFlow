@@ -1,0 +1,66 @@
+{
+  "currency": "INR",
+  "annualMonthsBilled": 10,
+  "trialDays": 14,
+  "razorpayPlanIds": {
+    "basic": { "month": "", "year": "" },
+    "anointed": { "month": "", "year": "" },
+    "king": { "month": "", "year": "" }
+  },
+  "plans": {
+    "basic": {
+      "name": "Basic",
+      "monthlyMinor": 29900,
+      "annualMinor": 299000,
+      "finalizedInvoicesPerMonth": 30,
+      "activeCustomers": 50,
+      "teamMembers": 1,
+      "features": {
+        "expenses": false,
+        "reports": false,
+        "fullReminders": false,
+        "reminderEmail": false,
+        "cashflow": false,
+        "receipts": false,
+        "team": false,
+        "fullExport": false
+      }
+    },
+    "anointed": {
+      "name": "Anointed",
+      "monthlyMinor": 79900,
+      "annualMinor": 799000,
+      "finalizedInvoicesPerMonth": 300,
+      "activeCustomers": 1000,
+      "teamMembers": 3,
+      "features": {
+        "expenses": true,
+        "reports": true,
+        "fullReminders": true,
+        "reminderEmail": false,
+        "cashflow": false,
+        "receipts": true,
+        "team": true,
+        "fullExport": true
+      }
+    },
+    "king": {
+      "name": "King",
+      "monthlyMinor": 149900,
+      "annualMinor": 1499000,
+      "finalizedInvoicesPerMonth": 3000,
+      "activeCustomers": null,
+      "teamMembers": 10,
+      "features": {
+        "expenses": true,
+        "reports": true,
+        "fullReminders": true,
+        "reminderEmail": true,
+        "cashflow": true,
+        "receipts": true,
+        "team": true,
+        "fullExport": true
+      }
+    }
+  }
+}

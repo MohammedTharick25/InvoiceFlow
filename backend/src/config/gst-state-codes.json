@@ -1,0 +1,56 @@
+{
+  "version": "owner-configured-reference-v1",
+  "authority": "confirm state names and labels with your accountant",
+  "states": [
+    { "code": "01", "name": "Jammu and Kashmir", "intraSecondTax": "SGST" },
+    { "code": "02", "name": "Himachal Pradesh", "intraSecondTax": "SGST" },
+    { "code": "03", "name": "Punjab", "intraSecondTax": "SGST" },
+    { "code": "04", "name": "Chandigarh", "intraSecondTax": "UTGST" },
+    { "code": "05", "name": "Uttarakhand", "intraSecondTax": "SGST" },
+    { "code": "06", "name": "Haryana", "intraSecondTax": "SGST" },
+    { "code": "07", "name": "Delhi", "intraSecondTax": "SGST" },
+    { "code": "08", "name": "Rajasthan", "intraSecondTax": "SGST" },
+    { "code": "09", "name": "Uttar Pradesh", "intraSecondTax": "SGST" },
+    { "code": "10", "name": "Bihar", "intraSecondTax": "SGST" },
+    { "code": "11", "name": "Sikkim", "intraSecondTax": "SGST" },
+    { "code": "12", "name": "Arunachal Pradesh", "intraSecondTax": "SGST" },
+    { "code": "13", "name": "Nagaland", "intraSecondTax": "SGST" },
+    { "code": "14", "name": "Manipur", "intraSecondTax": "SGST" },
+    { "code": "15", "name": "Mizoram", "intraSecondTax": "SGST" },
+    { "code": "16", "name": "Tripura", "intraSecondTax": "SGST" },
+    { "code": "17", "name": "Meghalaya", "intraSecondTax": "SGST" },
+    { "code": "18", "name": "Assam", "intraSecondTax": "SGST" },
+    { "code": "19", "name": "West Bengal", "intraSecondTax": "SGST" },
+    { "code": "20", "name": "Jharkhand", "intraSecondTax": "SGST" },
+    { "code": "21", "name": "Odisha", "intraSecondTax": "SGST" },
+    { "code": "22", "name": "Chhattisgarh", "intraSecondTax": "SGST" },
+    { "code": "23", "name": "Madhya Pradesh", "intraSecondTax": "SGST" },
+    { "code": "24", "name": "Gujarat", "intraSecondTax": "SGST" },
+    {
+      "code": "26",
+      "name": "Dadra and Nagar Haveli and Daman and Diu",
+      "intraSecondTax": "UTGST"
+    },
+    { "code": "27", "name": "Maharashtra", "intraSecondTax": "SGST" },
+    {
+      "code": "28",
+      "name": "Andhra Pradesh (old code)",
+      "intraSecondTax": "SGST"
+    },
+    { "code": "29", "name": "Karnataka", "intraSecondTax": "SGST" },
+    { "code": "30", "name": "Goa", "intraSecondTax": "SGST" },
+    { "code": "31", "name": "Lakshadweep", "intraSecondTax": "UTGST" },
+    { "code": "32", "name": "Kerala", "intraSecondTax": "SGST" },
+    { "code": "33", "name": "Tamil Nadu", "intraSecondTax": "SGST" },
+    { "code": "34", "name": "Puducherry", "intraSecondTax": "UTGST" },
+    {
+      "code": "35",
+      "name": "Andaman and Nicobar Islands",
+      "intraSecondTax": "UTGST"
+    },
+    { "code": "36", "name": "Telangana", "intraSecondTax": "SGST" },
+    { "code": "37", "name": "Andhra Pradesh", "intraSecondTax": "SGST" },
+    { "code": "38", "name": "Ladakh", "intraSecondTax": "UTGST" },
+    { "code": "97", "name": "Other territory", "intraSecondTax": "UTGST" }
+  ]
+}

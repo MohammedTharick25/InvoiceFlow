@@ -1,0 +1,109 @@
+name: Phase 1 checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.2
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+        working-directory: backend
+      - run: npm ls --all
+        working-directory: backend
+      - run: npm test
+        working-directory: backend
+      - run: npm run verify-pins
+        working-directory: backend
+      - run: npm run check:claims
+        working-directory: backend
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.2
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+        working-directory: frontend
+      - run: npm ls --all
+        working-directory: frontend
+      - run: npm test
+        working-directory: frontend
+      - run: npm run build
+        working-directory: frontend
+      - run: npm run build:parity
+        working-directory: frontend
+      - run: npm run build:marketing
+        working-directory: frontend
+      - run: npm run verify-pins
+        working-directory: frontend
+      - run: npm run check:claims
+        working-directory: frontend
+      - run: npx playwright install --with-deps chromium
+        working-directory: frontend
+      - run: npm run test:e2e
+        working-directory: frontend
+
+  clean-install-reproducibility:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app: [backend, frontend]
+        run: [first, second]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.2
+          cache: npm
+          cache-dependency-path: ${{ matrix.app }}/package-lock.json
+      - name: Capture clean install dependency tree
+        working-directory: ${{ matrix.app }}
+        run: |
+          npm ci
+          npm ls --all --json > "$RUNNER_TEMP/${{ matrix.app }}-${{ matrix.run }}-tree.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.app }}-${{ matrix.run }}-tree
+          path: ${{ runner.temp }}/${{ matrix.app }}-${{ matrix.run }}-tree.json
+
+  compare-clean-install-trees:
+    runs-on: ubuntu-latest
+    needs: clean-install-reproducibility
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: "*-tree"
+          path: ${{ runner.temp }}/trees
+          merge-multiple: false
+      - name: Compare fresh-runner dependency trees
+        run: |
+          diff -u "$RUNNER_TEMP/trees/backend-first-tree/backend-first-tree.json" "$RUNNER_TEMP/trees/backend-second-tree/backend-second-tree.json"
+          diff -u "$RUNNER_TEMP/trees/frontend-first-tree/frontend-first-tree.json" "$RUNNER_TEMP/trees/frontend-second-tree/frontend-second-tree.json"
+
+  lockfile-integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.22.2
+      - run: npm ci
+        working-directory: backend
+      - run: npm ci
+        working-directory: frontend
+      - run: git diff --exit-code -- backend/package-lock.json frontend/package-lock.json

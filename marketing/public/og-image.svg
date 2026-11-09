@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f2f2e9" />
+  <circle cx="1000" cy="100" r="380" fill="#e3ece0" />
+  <rect x="90" y="82" width="44" height="44" rx="14" fill="#1f8a73" />
+  <text x="103" y="117" fill="#fff" font-family="Georgia,serif" font-size="39" font-style="italic" font-weight="700">i</text>
+  <text x="151" y="113" fill="#162a35" font-family="Arial,sans-serif" font-size="30" font-weight="700">InvoiceFlow</text>
+  <text x="90" y="260" fill="#55726a" font-family="Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="4">INVOICING, WITH ROOM TO THINK</text>
+  <text x="90" y="347" fill="#162a35" font-family="Arial,sans-serif" font-size="72" font-weight="700" letter-spacing="-4">Good work deserves</text>
+  <text x="90" y="432" fill="#1f8a73" font-family="Arial,sans-serif" font-size="72" font-weight="700" letter-spacing="-4">a clear flow.</text>
+  <text x="90" y="500" fill="#5c6d6b" font-family="Arial,sans-serif" font-size="24">Invoices and business records, together in one workspace.</text>
+  <rect x="770" y="195" width="350" height="245" rx="16" fill="#fff" stroke="#dbe2db" stroke-width="2" />
+  <rect x="790" y="215" width="310" height="40" rx="7" fill="#eaf4ef" />
+  <text x="810" y="241" fill="#2e7061" font-family="Arial,sans-serif" font-size="16" font-weight="700">Your business at a glance</text>
+  <rect x="790" y="275" width="94" height="88" rx="8" fill="#fbfaf7" />
+  <rect x="898" y="275" width="94" height="88" rx="8" fill="#fbfaf7" />
+  <rect x="1006" y="275" width="94" height="88" rx="8" fill="#fbfaf7" />
+  <text x="804" y="300" fill="#74817c" font-family="Arial,sans-serif" font-size="12">Issued</text>
+  <text x="804" y="341" fill="#162a35" font-family="Arial,sans-serif" font-size="30" font-weight="700">12</text>
+  <text x="911" y="300" fill="#74817c" font-family="Arial,sans-serif" font-size="12">Outstanding</text>
+  <text x="911" y="341" fill="#162a35" font-family="Arial,sans-serif" font-size="22" font-weight="700">₹48.5k</text>
+  <text x="1020" y="300" fill="#74817c" font-family="Arial,sans-serif" font-size="12">Overdue</text>
+  <text x="1020" y="341" fill="#162a35" font-family="Arial,sans-serif" font-size="22" font-weight="700">₹12k</text>
+  <rect x="790" y="382" width="310" height="34" rx="6" fill="#f3f5ef" />
+  <text x="810" y="404" fill="#56716a" font-family="Arial,sans-serif" font-size="13">Recent invoices and payment records</text>
+</svg>

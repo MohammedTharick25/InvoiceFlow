@@ -1,0 +1,14 @@
+{
+  "reject": [
+    "GST compliant invoices",
+    "Fully compliant with GST law",
+    "Not only fast but GST compliant",
+    "Certified by your accountant"
+  ],
+  "accept": [
+    "InvoiceFlow does not guarantee GST compliance.",
+    "Invoices are not certified as compliant.",
+    "InvoiceFlow organizes invoice and tax information you configure. It does not file GST returns, give tax advice, or guarantee compliance. Review with a qualified accountant.",
+    "GST details depend on the policy described in the docs/compliance review guide."
+  ]
+}
