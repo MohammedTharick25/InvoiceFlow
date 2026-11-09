@@ -2,6 +2,18 @@
 
 This file records local Phase 12 preparation. No hosting account, domain, database, mail provider, monitoring service, or deployment has been configured.
 
+## Render staging URLs
+
+The owner supplied these staging origins:
+
+- API: `https://invoiceflow-4rtb.onrender.com`
+- App: `https://invoiceflow-frontend-2b0s.onrender.com`
+- Marketing: `https://invoiceflow-marketing.onrender.com`
+
+The root [`render.yaml`](../../render.yaml) records the associated API CORS origin, frontend API base URL, marketing canonical/app URLs, React Router fallback, and static-site security headers. Review Render's Blueprint changes before applying them. Confirm the three existing services are updated rather than duplicated. The Blueprint does not contain database, Resend, JWT, or Cloudinary secrets.
+
+If changing these values manually in Render, set `FRONTEND_ORIGIN` on the API, `VITE_API_BASE_URL` on the app Static Site, and `VITE_MARKETING_URL` plus `VITE_APP_URL` on the marketing Static Site; then rebuild the static sites. Configure the listed static security headers on their respective Render Static Sites. API security headers come from Helmet in the backend.
+
 ## Cost and environment boundary
 
 The owner has requested free and open-source options. The specification permits free instances for staging only. It requires a paid MongoDB tier with point-in-time restore and always-on hosting for production, so production deployment cannot proceed under the current cost constraint. Do not place production data in a free staging service.

@@ -5,6 +5,7 @@ Phase 12 has started with local, reviewable deployment preparation only. No host
 ## Completed
 
 - Added a staging smoke command that checks HTTPS app and marketing endpoints, security headers, API health, exact-origin CORS, and unauthenticated access denial. It performs only GET and OPTIONS requests.
+- Added `render.yaml` with the owner-supplied Render origins, exact API CORS origin, Vite build environment, app SPA fallback, and static-site security headers. It contains no credentials.
 - Added a production release gate that requires an accountant review record and validates its calculation version, PDF template version, and SHA-256 hash over the reviewed PDF source/data/font inputs.
 - Added authentication email delivery through Resend's HTTPS API, with SMTP retained as an option. The API key remains an environment secret; no Resend account, sending domain, DNS record, or key has been configured.
 - Added a sign-off template; it is deliberately not a completed review record.
@@ -13,11 +14,11 @@ Phase 12 has started with local, reviewable deployment preparation only. No host
 
 ## Verification status
 
-Backend verification completed: 19 test files and 130 tests passed; ESLint passed; Prettier passed; exact dependency pins passed; forbidden-claims scan passed. The release-gate CLI was also checked and correctly failed because `ACCOUNTANT_SIGNOFF.md` is absent. The staging smoke command cannot run against a real environment until the owner selects and configures HTTPS staging endpoints.
+Backend verification completed before the owner supplied staging URLs: 20 test files and 134 tests passed; ESLint passed; Prettier passed; exact dependency pins passed; forbidden-claims scan passed. The release-gate CLI was also checked and correctly failed because `ACCOUNTANT_SIGNOFF.md` is absent. After the URLs were supplied, the smoke check could not connect from the workspace (`fetch failed`); browser-based lookup also could not access them, so live service responses remain unverified. Apply/review the Render settings, then run the smoke check from a network that can reach the services.
 
 ## Open Phase 12 gates
 
-- Staging providers, hostnames, environment secrets, and deployment credentials are not configured.
+- Render staging hostnames are now known, but the Blueprint has not been applied and Render environment values/secrets have not been inspected or changed from this workspace.
 - Resend still needs an owner-created account, a verified sending domain, and a sending-only domain-scoped API key before real account emails can be delivered.
 - The owner requested free/open-source options. The specification restricts free instances to staging and requires paid MongoDB point-in-time recovery plus always-on production hosting. Production deployment therefore cannot proceed within that constraint.
 - A qualified accountant has not completed the review. No one has been contacted or represented as having approved the tax policy.
