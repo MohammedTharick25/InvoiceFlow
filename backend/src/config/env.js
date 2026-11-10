@@ -16,6 +16,7 @@ const schema = z
     EMAIL_URL: z.string().default(""),
     EMAIL_PROVIDER: z.enum(["smtp", "resend"]).default("smtp"),
     RESEND_API_KEY: z.string().default(""),
+    DEFAULT_FROM_NAME: z.string().trim().min(1).max(100).default("InvoiceFlow"),
     DEFAULT_FROM_EMAIL: z.string().email().default("auth@invoiceflow.local"),
     MAX_BUSINESSES_PER_USER: z.coerce.number().int().min(1).max(10).default(1),
     CLOUDINARY_CLOUD_NAME: z.string().default(""),

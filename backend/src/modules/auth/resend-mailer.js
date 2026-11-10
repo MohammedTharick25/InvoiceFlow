@@ -25,9 +25,22 @@ export function createResendMailer({ apiKey, fetchImpl = fetch } = {}) {
       });
       const result = await response.json().catch(() => null);
       if (!response.ok || typeof result?.id !== "string") {
-        throw new Error(
-          `Resend email request failed with HTTP ${response.status}.`,
+        // Provider diagnostics are safe to log when limited to the HTTP status
+        // and a machine-readable error name. Never retain the raw response,
+        // which could contain recipient addresses or credentials.
+        const providerCode =
+          typeof result?.name === "string" &&
+          /^[A-Za-z0-9_-]{1,64}$/.test(result.name)
+            ? result.name
+            : undefined;
+        const error = new Error(
+          `Resend request failed (HTTP ${response.status}${
+            providerCode ? `, ${providerCode}` : ""
+          }).`,
         );
+        error.providerStatus = response.status;
+        if (providerCode) error.providerCode = providerCode;
+        throw error;
       }
       return { messageId: result.id };
     },

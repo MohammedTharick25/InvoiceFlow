@@ -91,7 +91,9 @@ async function createAuthToken({ user, type, env, now, mailer, targetEmail }) {
         : nodemailer.createTransport(env.EMAIL_URL));
     try {
       const message = {
-        from: env.DEFAULT_FROM_EMAIL,
+        from: env.DEFAULT_FROM_NAME
+          ? `${env.DEFAULT_FROM_NAME} <${env.DEFAULT_FROM_EMAIL}>`
+          : env.DEFAULT_FROM_EMAIL,
         to: targetEmail ?? user.email,
         subject:
           type === "verify_email"
@@ -107,12 +109,21 @@ async function createAuthToken({ user, type, env, now, mailer, targetEmail }) {
       } else {
         await transport.sendMail(message);
       }
-    } catch {
-      throw new ApiError(
+    } catch (deliveryError) {
+      const error = new ApiError(
         503,
         "EMAIL_DELIVERY_FAILED",
         "Account email could not be delivered. Please try again later.",
       );
+      // Keep provider details server-side so the client gets the same generic
+      // response while operators can distinguish invalid keys, sender policy,
+      // rate limits, and network failures in application logs.
+      error.emailProviderFailure = deliveryError?.message ?? "Unknown mail error";
+      if (deliveryError?.providerStatus)
+        error.emailProviderStatus = deliveryError.providerStatus;
+      if (deliveryError?.providerCode)
+        error.emailProviderCode = deliveryError.providerCode;
+      throw error;
     }
     return {};
   }

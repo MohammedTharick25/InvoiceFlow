@@ -19,6 +19,19 @@ export function errorHandler(error, req, res, _next) {
   };
   if (error instanceof ApiError && error.details !== undefined)
     body.error.details = error.details;
-  if (status >= 500) req.log?.error({ err: error }, "Request failed");
+  if (status >= 500)
+    req.log?.error(
+      {
+        err: error,
+        ...(error.emailProviderFailure
+          ? {
+              emailProviderFailure: error.emailProviderFailure,
+              emailProviderStatus: error.emailProviderStatus,
+              emailProviderCode: error.emailProviderCode,
+            }
+          : {}),
+      },
+      "Request failed",
+    );
   res.status(status).json(body);
 }
